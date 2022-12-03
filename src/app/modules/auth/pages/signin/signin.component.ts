@@ -36,7 +36,7 @@ export class SigninComponent {
 		console.log(this.user);
 
 		this.authService.login(this.user);
-		// this.router.navigate(['']);
 		this.generalService.isLogged = true;
+		this.router.navigate(['']);
 	}
 }

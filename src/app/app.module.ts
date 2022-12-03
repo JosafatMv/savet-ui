@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { materialModules } from './types/material-modules';
 import { AppRouterModule } from './routers/app-router.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { MainPetComponent } from './modules/pet/pages/main-pet/main-pet.component';
+import { PetModule } from './modules/pet/pet.module';
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent],
@@ -19,6 +21,7 @@ import { AuthModule } from './modules/auth/auth.module';
 		LayoutModule,
 		HttpClientModule,
 		AuthModule,
+		PetModule,
 		...materialModules,
 	],
 	providers: [],

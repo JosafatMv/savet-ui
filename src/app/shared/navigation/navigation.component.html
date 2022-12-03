@@ -46,6 +46,21 @@
 </div>
 -->
 <!-- <div *ngIf="!session"> -->
-<div>
+
+<div *ngIf="!session">
   <app-signin></app-signin>
+</div>
+
+<div *ngIf="session">
+  <mat-toolbar class="navbar">
+    <div>
+      <img [src]="logoPath" alt="Logo" mat-card-image />
+    </div>
+    <div>
+      <a>Usuarios</a>
+      <a [routerLink]="['/pets']">Mascotas</a>
+      <a>Productos</a>
+      <a>Servicios</a>
+    </div>
+  </mat-toolbar>
 </div>
