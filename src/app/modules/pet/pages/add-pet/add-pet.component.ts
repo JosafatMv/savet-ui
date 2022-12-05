@@ -14,7 +14,7 @@ export class AddPetComponent implements OnInit {
 		breed: '',
 		gender: '',
 		weight: 0,
-		personal: {},
+		user: {},
 	};
 
 	people: any[] = [];
@@ -24,22 +24,25 @@ export class AddPetComponent implements OnInit {
 		private petService: PetService
 	) {
 		if (this.petService.edit) {
+			console.log(this.petService.petUpdate);
+
 			this.pet = this.petService.petUpdate;
 		}
 	}
 
 	ngOnInit(): void {
-		this.getPersonal();
+		this.getUsers();
 	}
 
 	isLoading() {
 		return this.petService.isLoading;
 	}
 
-	getPersonal() {
-		this.petService.findAllPersonal().subscribe((response) => {
-			this.petService.isLoading = false;
+	getUsers() {
+		this.petService.findAllUsers().subscribe((response) => {
+			console.log(response);
 
+			this.petService.isLoading = false;
 			this.people = response;
 		});
 	}
@@ -60,7 +63,7 @@ export class AddPetComponent implements OnInit {
 					breed: '',
 					gender: '',
 					weight: 0,
-					personal: {},
+					user: {},
 				};
 				this.modal.close();
 				this.petService.findAll();

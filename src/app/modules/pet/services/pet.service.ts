@@ -50,9 +50,9 @@ export class PetService {
 		return this.http.post<any>(`${APP_URL}api/pet/`, pet);
 	}
 
-	findAllPersonal() {
+	findAllUsers() {
 		this.loading = true;
-		return this.http.get<any>(`${APP_URL}api/personal/`).pipe(
+		return this.http.get<any>(`${APP_URL}api/user/`).pipe(
 			catchError((error) => {
 				this.loading = false;
 				return error;
