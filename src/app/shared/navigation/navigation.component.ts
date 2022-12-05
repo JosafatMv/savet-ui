@@ -26,4 +26,9 @@ export class NavigationComponent {
 			this.router.navigateByUrl('/auth');
 		}
 	}
+
+	logout() {
+		this.generalService.logout();
+		this.router.navigateByUrl('/signin');
+	}
 }

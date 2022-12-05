@@ -1,0 +1,74 @@
+<form #formPet="ngForm" novalidate (submit)="savePet()">
+  <h2 mat-dialog-title>Registro de mascotas</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row form-group">
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="Gatote" #name="ngModel" [(ngModel)]="pet.name" name="name" required
+            pattern="[A-Za-z.áéóíúÁÉÓÍÚñÑÖÜöüW0-9 ]+">
+          <mat-error *ngIf="name.invalid">
+            <span *ngIf="name.errors?.['required']">Campo obligatorio</span>
+            <span *ngIf="name.errors?.['pattern']">Caracteres no válidos</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Raza</mat-label>
+          <input matInput placeholder="Perro" #breed="ngModel" [(ngModel)]="pet.breed" name="breed" required
+            pattern="[A-Za-z.áéóíúÁÉÓÍÚñÑÖÜöüW0-9 ]+">
+          <mat-error *ngIf="breed.invalid">
+            <span *ngIf="breed.errors?.['required']">Campo obligatorio</span>
+            <span *ngIf="breed.errors?.['pattern']">Caracteres no válidos</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Género</mat-label>
+          <input matInput placeholder="Masculino | Femenino" type="text" #gender="ngModel" [(ngModel)]="pet.gender"
+            name="gender" pattern="[A-Za-z.áéóíúÁÉÓÍÚñÑÖÜöüW0-9 ]+">
+          <mat-error *ngIf="gender.invalid">
+            <span *ngIf="gender.errors?.['pattern']">Caracteres no válidos</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Peso (kg)</mat-label>
+          <input matInput placeholder="4" type="number" #weight="ngModel" [(ngModel)]="pet.weight" name="weight"
+            required>
+          <mat-error *ngIf="weight.invalid">
+            <span *ngIf="weight.errors?.['required']">Campo obligatorio</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Dueño</mat-label>
+          <mat-select #personal="ngModel" [(ngModel)]="pet.personal!.personal_id" name="personal" required>
+            <mat-option *ngFor="let personal of people" [value]="personal.personal_id">{{personal.name}}
+              {{personal.surname}} {{personal.lastname}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="personal.invalid">
+            <span *ngIf="personal.errors?.['required']">Campo obligatorio</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="justify-content-end">
+    <button mat-button mat-dialog-close type="button" color="warn">
+      <mat-icon>cancel</mat-icon> Cancel
+    </button>
+    <button mat-button type="submit" [disabled]="formPet.invalid || !isLoading" color="primary">
+      <mat-icon>check</mat-icon> Guardar
+    </button>
+  </mat-dialog-actions>
+</form>
