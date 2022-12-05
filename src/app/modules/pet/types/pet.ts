@@ -6,6 +6,6 @@ export type Pet = Entity<number> & {
 	breed: string;
 	gender: string;
 	weight: number;
-	personal: any;
+	user: any;
 	owner?: string;
 };

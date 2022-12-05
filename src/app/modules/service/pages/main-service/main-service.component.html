@@ -1,0 +1,61 @@
+<mat-card class="mt-5 mb-5">
+  <mat-card-header class="row">
+    <div class="col">
+      <mat-card-title>Servicios</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+    </div>
+    <div class="col text-end">
+      <button mat-mini-fab color="accent" aria-label="Open register user" (click)="openDialog('0ms', '0ms')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="col-12" mat-table [dataSource]="services" matSort (matSortChange)="announceSortChange($event)">
+      <ng-container matColumnDef="#">
+        <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <th mat-cell *matCellDef="let element; let i=index">{{i+1}}</th>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+        <th mat-cell *matCellDef="let element">{{element.name}} </th>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</th>
+        <th mat-cell *matCellDef="let element">{{element.description}}</th>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
+        <th mat-cell *matCellDef="let element">{{element.price}}</th>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <th mat-cell *matCellDef="let element">
+          <button mat-mini-fab (click)="editService(element)" color="primary" aria-label="Editar servicio">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <!-- <button class="ms-2" mat-mini-fab color="warn" (click)="deletePet(element.pet_id)">
+                <mat-icon>delete</mat-icon>
+              </button> -->
+          <button mat-mini-fab [ngClass]="{
+                'bg-danger': element.status === 1,
+                'bg-success': element.status === 0
+                }" (click)="changeStatus(element)" class="ms-2">
+            <mat-icon *ngIf="element.status === 1">delete</mat-icon>
+            <mat-icon *ngIf="element.status === 0">restore_from_trash</mat-icon>
+          </button>
+        </th>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of users elements">
+
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
+
+<!-- 
+    <div id="loaderDiv" *ngIf="isLoading">
+      <mat-spinner mode="indeterminate" class="ajax-loader"></mat-spinner>
+    </div> -->

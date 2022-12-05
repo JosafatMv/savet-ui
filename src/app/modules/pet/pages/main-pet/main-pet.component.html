@@ -48,7 +48,7 @@
           <button mat-mini-fab [ngClass]="{
             'bg-danger': element.status === 1,
             'bg-success': element.status === 0
-            }" (click)="changeStatus(element)">
+            }" (click)="changeStatus(element)" class="ms-2">
             <mat-icon *ngIf="element.status === 1">delete</mat-icon>
             <mat-icon *ngIf="element.status === 0">restore_from_trash</mat-icon>
           </button>
@@ -63,7 +63,7 @@
   </mat-card-content>
 </mat-card>
 
-
+<!-- 
 <div id="loaderDiv" *ngIf="isLoading">
   <mat-spinner mode="indeterminate" class="ajax-loader"></mat-spinner>
-</div>
+</div> -->

@@ -1,0 +1,103 @@
+<form #formUser="ngForm" novalidate (submit)="saveUser()">
+  <h2 mat-dialog-title>Registro de usuarios</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row form-group">
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="Josafat" #name="ngModel" [(ngModel)]="user.name" name="name" required
+            pattern="[A-Za-z.áéóíúÁÉÓÍÚñÑÖÜöüW0-9 ]+">
+          <mat-error *ngIf="name.invalid">
+            <span *ngIf="name.errors?.['required']">Campo obligatorio</span>
+            <span *ngIf="name.errors?.['pattern']">Caracteres no válidos</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Apellido Paterno</mat-label>
+          <input matInput placeholder="Muñoz" #surname="ngModel" [(ngModel)]="user.surname" name="surname" required
+            pattern="[A-Za-z.áéóíúÁÉÓÍÚñÑÖÜöüW0-9 ]+">
+          <mat-error *ngIf="surname.invalid">
+            <span *ngIf="surname.errors?.['required']">Campo obligatorio</span>
+            <span *ngIf="surname.errors?.['pattern']">Caracteres no válidos</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Apellido Materno</mat-label>
+          <input matInput placeholder="Valverde" type="text" #lastname="ngModel" [(ngModel)]="user.lastname"
+            name="lastname" pattern="[A-Za-z.áéóíúÁÉÓÍÚñÑÖÜöüW0-9 ]+">
+          <mat-error *ngIf="lastname.invalid">
+            <span *ngIf="lastname.errors?.['pattern']">Caracteres no válidos</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input matInput type="date" #birthdate="ngModel" [(ngModel)]="user.birthdate" name="birthdate" required>
+          <mat-error *ngIf="birthdate.invalid">
+            <span *ngIf="birthdate.errors?.['required']">Campo obligatorio</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-6 col-md-6 col-xs-12" *ngIf="!isEdit">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Correo</mat-label>
+          <input matInput placeholder="20213tn124@utez.edu.mx" type="email" #email="ngModel" [(ngModel)]="user.email"
+            name="email" required>
+          <mat-error *ngIf="email.invalid">
+            <span *ngIf="email.errors?.['required']">Caracteres no válidos</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Rol</mat-label>
+          <mat-select [required]="true" [(ngModel)]="user.role" #role="ngModel" name="role">
+            <mat-option value="admin">
+              Administrador
+            </mat-option>
+            <mat-option value="veterinary">
+              Veterinario
+            </mat-option>
+            <mat-option value="client">
+              Cliente
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="role.invalid">
+            <span *ngIf="role.errors?.['required']">
+              Campo obligatorio
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group" *ngIf="!isEdit">
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Contraseña</mat-label>
+          <input matInput placeholder="******" #password="ngModel" [(ngModel)]="user.password" name="password" required
+            type="password">
+          <mat-error *ngIf="password.invalid">
+            <span *ngIf="password.errors?.['required']">Campo obligatorio</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="justify-content-end">
+    <button mat-button mat-dialog-close type="button" color="warn">
+      <mat-icon>cancel</mat-icon> Cancel
+    </button>
+    <button mat-button type="submit" [disabled]="formUser.invalid || !isLoading" color="primary">
+      <mat-icon>check</mat-icon> Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

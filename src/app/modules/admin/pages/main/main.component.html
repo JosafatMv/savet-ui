@@ -4,10 +4,11 @@
       <img [src]="logoPath" alt="Logo" mat-card-image />
     </div>
     <div>
-      <a>Usuarios</a>
-      <a [routerLink]="['/admin']">Mascotas</a>
+      <a [routerLink]="['/admin/users']">Usuarios</a>
+      <a [routerLink]="['/admin/pets']">Mascotas</a>
       <a>Productos</a>
-      <a>Servicios</a>
+      <a [routerLink]="['/admin/categories']">Categorias</a>
+      <a [routerLink]="['/admin/services']">Servicios</a>
       <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon>person</mat-icon>
       </button>

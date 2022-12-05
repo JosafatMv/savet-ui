@@ -12,6 +12,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PetModule } from './modules/pet/pet.module';
 import { MainComponent } from './modules/auth/pages/main/main.component';
 import { CustomHttpInterceptorService } from './services/http-interceptor.service';
+import { UserModule } from './modules/user/user.module';
+import { ServiceModule } from './modules/service/service.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent, MainComponent],
@@ -23,6 +26,9 @@ import { CustomHttpInterceptorService } from './services/http-interceptor.servic
 		HttpClientModule,
 		AuthModule,
 		PetModule,
+		UserModule,
+		ServiceModule,
+		CategoryModule,
 		...materialModules,
 	],
 	providers: [

@@ -78,7 +78,7 @@ export class MainPetComponent implements OnInit {
 				breed: '',
 				gender: '',
 				weight: 0,
-				personal: {},
+				user: {},
 			};
 			this.petService.edit = false;
 			this.getAllPets();
@@ -89,7 +89,7 @@ export class MainPetComponent implements OnInit {
 		this.petService.edit = true;
 		this.petService.petUpdate = {
 			...pet,
-			personal: { personal_id: Number(pet.personal_id) },
+			user: { user_id: Number(pet.user_id) },
 		};
 		this.openDialog('2ms', '1ms');
 	}
