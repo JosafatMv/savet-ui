@@ -1,31 +1,40 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from '../app.component';
-import { SigninComponent } from '../modules/auth/pages/signin/signin.component';
-import { MainPetComponent } from '../modules/pet/pages/main-pet/main-pet.component';
+import { ValidateGuard } from '../guard/validate.guard';
+import { AuthGuard } from '../guard/auth.guard';
 
 const routes: Routes = [
+	// {
+	// 	path: '',
+	// 	loadChildren: () =>
+	// 		import('../modules/auth/auth.module').then((m) => m.AuthModule),
+	// 	canActivate: [ValidateGuard],
+	// 	canLoad: [ValidateGuard],
+	// 	pathMatch: 'full',
+	// },
+	// {
+	// 	path: '',
+	// 	component: SigninComponent,
+	// },
 	{
-		path: '',
-		component: MainPetComponent,
-		pathMatch: 'full',
+		path: 'auth',
+		loadChildren: () =>
+			import('../modules/auth/auth.module').then((m) => m.AuthModule),
+		canActivate: [AuthGuard],
+		canLoad: [AuthGuard],
 	},
-
 	{
-		path: 'signin',
-		component: SigninComponent,
-	},
-	{
-		path: 'signup',
-		component: SigninComponent,
-	},
-	{
-		path: 'pets',
-		component: MainPetComponent,
+		path: 'admin',
+		loadChildren: () =>
+			import('../modules/admin/admin.module').then((m) => m.AdminModule),
+		canActivate: [ValidateGuard],
+		canLoad: [ValidateGuard],
+		data: { role: 'admin' },
 	},
 	{
 		path: '**',
-		redirectTo: '',
+		redirectTo: 'auth',
 	},
 ];
 

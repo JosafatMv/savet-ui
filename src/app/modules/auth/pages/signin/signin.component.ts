@@ -25,18 +25,15 @@ export class SigninComponent {
 		private authService: AuthService,
 		private router: Router,
 		private generalService: GeneralService
-	) {
-		if (!!localStorage.getItem('token')) {
-			// this.router.navigate(['']);
-			console.log(localStorage.getItem('token'));
-		}
-	}
+	) {}
 
 	signin() {
-		console.log(this.user);
-
-		this.authService.login(this.user);
-		this.generalService.isLogged = true;
-		this.router.navigate(['']);
+		this.authService.login(this.user).subscribe((response: any) => {
+			const { user } = response;
+			localStorage.setItem('token', user.token);
+			this.generalService.isLogged = true;
+			this.authService.isLoading = false;
+			this.router.navigateByUrl('/admin');
+		});
 	}
 }

@@ -1,15 +1,11 @@
-<!-- <div *ngIf="!session">
-  <app-signin></app-signin>
-</div> -->
-
-<div *ngIf="session">
+<div>
   <mat-toolbar class="navbar">
     <div>
       <img [src]="logoPath" alt="Logo" mat-card-image />
     </div>
     <div>
       <a>Usuarios</a>
-      <a [routerLink]="['/pets']">Mascotas</a>
+      <a [routerLink]="['/admin']">Mascotas</a>
       <a>Productos</a>
       <a>Servicios</a>
       <button mat-button [matMenuTriggerFor]="menu">
@@ -21,6 +17,7 @@
       </mat-menu>
     </div>
   </mat-toolbar>
-  <div class="container">
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
   </div>
 </div>
