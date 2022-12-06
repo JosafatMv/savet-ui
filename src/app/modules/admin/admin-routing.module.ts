@@ -5,6 +5,8 @@ import { MainPetComponent } from '../pet/pages/main-pet/main-pet.component';
 import { MainUserComponent } from '../user/pages/main-user/main-user.component';
 import { MainServiceComponent } from '../service/pages/main-service/main-service.component';
 import { MainCategoryComponent } from '../category/pages/main-category/main-category.component';
+import { MainProductComponent } from '../product/pages/main-product/main-product.component';
+import { MainMedicineComponent } from '../medicine/pages/main-medicine/main-medicine.component';
 
 const routes: Routes = [
 	{
@@ -15,7 +17,9 @@ const routes: Routes = [
 			{ path: 'users', component: MainUserComponent },
 			{ path: 'services', component: MainServiceComponent },
 			{ path: 'categories', component: MainCategoryComponent },
-			{ path: '**', redirectTo: 'pets' },
+			{ path: 'products', component: MainProductComponent },
+			{ path: 'medicines', component: MainMedicineComponent },
+			{ path: '**', redirectTo: 'users' },
 		],
 	},
 ];

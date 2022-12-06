@@ -9,7 +9,7 @@ import { CategoryService } from '../../services/category.service';
 })
 export class AddCategoryComponent implements OnInit {
 	category: Category = {
-		id: 0,
+		category_id: 0,
 		name: '',
 	};
 
@@ -39,7 +39,7 @@ export class AddCategoryComponent implements OnInit {
 			this.categoryService.save(this.category).subscribe((response) => {
 				this.categoryService.isLoading = false;
 				this.category = {
-					id: 0,
+					category_id: 0,
 					name: '',
 				};
 				this.modal.close();

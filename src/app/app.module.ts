@@ -15,6 +15,8 @@ import { CustomHttpInterceptorService } from './services/http-interceptor.servic
 import { UserModule } from './modules/user/user.module';
 import { ServiceModule } from './modules/service/service.module';
 import { CategoryModule } from './modules/category/category.module';
+import { ProductModule } from './modules/product/product.module';
+import { MedicineModule } from './modules/medicine/medicine.module';
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent, MainComponent],
@@ -29,6 +31,8 @@ import { CategoryModule } from './modules/category/category.module';
 		UserModule,
 		ServiceModule,
 		CategoryModule,
+		ProductModule,
+		MedicineModule,
 		...materialModules,
 	],
 	providers: [

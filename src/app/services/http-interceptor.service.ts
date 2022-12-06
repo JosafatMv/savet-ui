@@ -13,6 +13,16 @@ export class CustomHttpInterceptorService implements HttpInterceptor {
 		req: HttpRequest<any>,
 		next: HttpHandler
 	): Observable<HttpEvent<any>> {
+		const skipIntercept = req.headers.has('skip');
+
+		if (skipIntercept) {
+			req = req.clone({
+				headers: req.headers.delete('skip'),
+			});
+
+			return next.handle(req);
+		}
+
 		const token = localStorage.getItem('token');
 		const isLogged = !!token;
 		if (isLogged) {
