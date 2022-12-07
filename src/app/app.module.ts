@@ -18,6 +18,8 @@ import { CategoryModule } from './modules/category/category.module';
 import { ProductModule } from './modules/product/product.module';
 import { MedicineModule } from './modules/medicine/medicine.module';
 import { ConsultationModule } from './modules/consultation/consultation.module';
+import { MainPaymentComponent } from './modules/payment/pages/main-payment/main-payment.component';
+import { PaymentModule } from './modules/payment/payment.module';
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent, MainComponent],
@@ -35,6 +37,7 @@ import { ConsultationModule } from './modules/consultation/consultation.module';
 		ProductModule,
 		MedicineModule,
 		ConsultationModule,
+    PaymentModule,
 		...materialModules,
 	],
 	providers: [

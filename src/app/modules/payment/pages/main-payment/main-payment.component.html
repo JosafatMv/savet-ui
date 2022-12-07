@@ -1,0 +1,36 @@
+<mat-card class="mt-5 mb-5">
+  <mat-card-header class="row">
+    <div class="col">
+      <mat-card-title>Payments</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="col-12" mat-table [dataSource]="payment" matSort (matSortChange)="announceSortChange($event)">
+      <ng-container matColumnDef="#">
+        <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <th mat-cell *matCellDef="let element; let i=index">{{i+1}}</th>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+        <th mat-cell *matCellDef="let element">{{element.date}} </th>
+      </ng-container>
+      <ng-container matColumnDef="consultation">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Consulta</th>
+        <th mat-cell *matCellDef="let element">{{element.consultation}}</th>
+      </ng-container>
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Monto</th>
+        <th mat-cell *matCellDef="let element">{{element.amount}}</th>
+      </ng-container>
+      <ng-container matColumnDef="paymentMethod">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Metodo de Pago</th>
+        <th mat-cell *matCellDef="let element">{{element.paymentMethod}}</th>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of personal elements">
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
