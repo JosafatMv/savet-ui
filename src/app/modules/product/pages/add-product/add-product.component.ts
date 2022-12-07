@@ -43,16 +43,17 @@ export class AddProductComponent implements OnInit {
 
 	getCategories() {
 		this.productService.findAllCategories().subscribe((response) => {
+			const activeCategories = response.filter(
+				(category: any) => category.status
+			);
+
 			this.productService.isLoading = false;
-			this.categories = response;
+			this.categories = activeCategories;
 		});
 	}
 
 	saveProduct() {
-		console.log(this.file);
-
 		this.productService.upload(this.file).subscribe((response: any) => {
-			console.log(response);
 			this.product.img_url = response.secure_url;
 			this.productService.isLoading = false;
 

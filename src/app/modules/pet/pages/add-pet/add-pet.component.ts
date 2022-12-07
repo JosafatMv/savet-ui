@@ -40,10 +40,10 @@ export class AddPetComponent implements OnInit {
 
 	getUsers() {
 		this.petService.findAllUsers().subscribe((response) => {
-			console.log(response);
-
 			this.petService.isLoading = false;
-			this.people = response;
+
+			const activeUsers = response.filter((user: any) => user.status);
+			this.people = activeUsers;
 		});
 	}
 

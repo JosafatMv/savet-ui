@@ -94,10 +94,10 @@ export class ProductService {
 		this.loading = true;
 
 		const formData = new FormData();
-		formData.append('upload_preset', 'vskekzfm');
+		formData.append('upload_preset', 'savet-ui');
 		formData.append('file', file);
 		formData.append('api_key', '349172525139577');
-		formData.append('folder', 'products');
+		formData.append('folder', 'savet/products');
 
 		return this.http
 			.post('https://api.cloudinary.com/v1_1/sigsa/upload', formData, {
