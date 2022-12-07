@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { AddProductComponent } from '../add-product/add-product.component';
+import { GeneralService } from '../../../../services/general.service';
 
 @Component({
 	selector: 'app-main-product',
@@ -38,8 +39,23 @@ export class MainProductComponent implements OnInit {
 		});
 	}
 
+	getDisplayedColumns() {
+		if (this.isAdmin()) {
+			return this.displayedColumns;
+		} else {
+			return this.displayedColumns.filter(
+				(column) => column !== 'actions'
+			);
+		}
+	}
+
+	isAdmin() {
+		return this.generalService.userInfo.role === 'admin';
+	}
+
 	constructor(
 		private productService: ProductService,
+		private generalService: GeneralService,
 		private _liveAnnouncer: LiveAnnouncer,
 		public dialog: MatDialog
 	) {}

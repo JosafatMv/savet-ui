@@ -33,7 +33,20 @@ export class SigninComponent {
 			localStorage.setItem('token', user.token);
 			this.generalService.isLogged = true;
 			this.authService.isLoading = false;
-			this.router.navigateByUrl('/admin');
+
+			switch (user.role) {
+				case 'admin':
+					this.router.navigateByUrl('/admin');
+					break;
+
+				case 'veterinary':
+					this.router.navigateByUrl('/veterinary');
+					break;
+
+				case 'client':
+					this.router.navigateByUrl('/client');
+					break;
+			}
 		});
 	}
 }

@@ -49,10 +49,7 @@ export class AddProductComponent implements OnInit {
 	}
 
 	saveProduct() {
-		console.log(this.file);
-
 		this.productService.upload(this.file).subscribe((response: any) => {
-			console.log(response);
 			this.product.img_url = response.secure_url;
 			this.productService.isLoading = false;
 

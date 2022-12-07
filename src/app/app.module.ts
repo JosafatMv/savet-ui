@@ -17,6 +17,7 @@ import { ServiceModule } from './modules/service/service.module';
 import { CategoryModule } from './modules/category/category.module';
 import { ProductModule } from './modules/product/product.module';
 import { MedicineModule } from './modules/medicine/medicine.module';
+import { ConsultationModule } from './modules/consultation/consultation.module';
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent, MainComponent],
@@ -33,6 +34,7 @@ import { MedicineModule } from './modules/medicine/medicine.module';
 		CategoryModule,
 		ProductModule,
 		MedicineModule,
+		ConsultationModule,
 		...materialModules,
 	],
 	providers: [

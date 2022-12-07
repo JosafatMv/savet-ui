@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { AddServiceComponent } from '../add-service/add-service.component';
+import { GeneralService } from '../../../../services/general.service';
 
 @Component({
 	selector: 'app-main-service',
@@ -27,6 +28,20 @@ export class MainServiceComponent implements OnInit {
 		return this.serviceService.isLoading;
 	}
 
+	getDisplayedColumns() {
+		if (this.isAdmin()) {
+			return this.displayedColumns;
+		} else {
+			return this.displayedColumns.filter(
+				(column) => column !== 'actions'
+			);
+		}
+	}
+
+	isAdmin() {
+		return this.generalService.userInfo.role === 'admin';
+	}
+
 	getAllServices() {
 		this.serviceService.findAll().subscribe((response) => {
 			this.serviceService.isLoading = false;
@@ -38,6 +53,7 @@ export class MainServiceComponent implements OnInit {
 
 	constructor(
 		private serviceService: ServiceService,
+		private generalService: GeneralService,
 		private _liveAnnouncer: LiveAnnouncer,
 		public dialog: MatDialog
 	) {}

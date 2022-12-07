@@ -23,6 +23,10 @@ export class ValidateGuard implements CanActivate, CanLoad {
 			tap((valid) => {
 				if (!valid) {
 					this.router.navigateByUrl('/auth');
+				} else {
+					if (!this.checkRole(route)) {
+						this.router.navigateByUrl('/auth');
+					}
 				}
 			})
 		);
