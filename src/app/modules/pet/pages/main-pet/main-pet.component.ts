@@ -7,6 +7,7 @@ import { PetService } from '../../services/pet.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPetComponent } from '../add-pet/add-pet.component';
+import { GeneralService } from '../../../../services/general.service';
 
 @Component({
 	selector: 'app-main-pet',
@@ -30,7 +31,7 @@ export class MainPetComponent implements OnInit {
 	}
 
 	getAllPets() {
-		this.petService.findAll().subscribe((response) => {
+		this.petService.findAll().subscribe((response: any) => {
 			this.petService.isLoading = false;
 			this.pets = new MatTableDataSource(response);
 			this.pets.paginator = this.paginator;
@@ -38,8 +39,23 @@ export class MainPetComponent implements OnInit {
 		});
 	}
 
+	getDisplayedColumns() {
+		if (this.isAdmin()) {
+			return this.displayedColumns;
+		} else {
+			return this.displayedColumns.filter(
+				(column) => column !== 'actions'
+			);
+		}
+	}
+
+	isAdmin() {
+		return this.generalService.userInfo.role === 'admin';
+	}
+
 	constructor(
 		private petService: PetService,
+		private generalService: GeneralService,
 		private _liveAnnouncer: LiveAnnouncer,
 		public dialog: MatDialog
 	) {
@@ -95,14 +111,14 @@ export class MainPetComponent implements OnInit {
 	}
 
 	changeStatus(pet: Pet) {
-		this.petService.changeStatus(pet).subscribe((response) => {
+		this.petService.changeStatus(pet).subscribe((response: any) => {
 			this.petService.isLoading = false;
 			this.getAllPets();
 		});
 	}
 
 	deletePet(id: number) {
-		this.petService.delete(id).subscribe((response) => {
+		this.petService.delete(id).subscribe((response: any) => {
 			this.petService.isLoading = false;
 			this.getAllPets();
 		});

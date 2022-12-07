@@ -1,0 +1,23 @@
+<div>
+  <mat-toolbar class="navbar">
+    <div>
+      <img [src]="logoPath" alt="Logo" mat-card-image />
+    </div>
+    <div>
+      <a routerLinkActive="active" [routerLink]="['/veterinary/consultations']">Consultas</a>
+      <a routerLinkActive="active" [routerLink]="['/veterinary/services']">Servicios</a>
+      <a routerLinkActive="active" [routerLink]="['/veterinary/products']">Productos</a>
+      <a routerLinkActive="active" [routerLink]="['/veterinary/pets']">Mascotas</a>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>person</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" class="menu">
+        <button mat-menu-item>Info</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
+  </div>
+</div>

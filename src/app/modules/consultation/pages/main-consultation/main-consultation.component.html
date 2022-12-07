@@ -1,0 +1,42 @@
+<mat-card class="mt-5 mb-5">
+  <mat-card-header class="row">
+    <div class="col">
+      <mat-card-title>Pets</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+    </div>
+    <div class="col text-end">
+      <button mat-mini-fab color="accent" aria-label="Open register pet" (click)="openDialog('0ms', '0ms')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="col-12" mat-table [dataSource]="consultations" matSort (matSortChange)="announceSortChange($event)">
+      <ng-container matColumnDef="#">
+        <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <th mat-cell *matCellDef="let element; let i=index">{{i+1}}</th>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de consulta</th>
+        <th mat-cell *matCellDef="let element">{{element.date}} </th>
+      </ng-container>
+      <ng-container matColumnDef="pet">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Mascota</th>
+        <th mat-cell *matCellDef="let element">{{element.pet}}</th>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <th mat-cell *matCellDef="let element">
+          <button mat-mini-fab (click)="editConsultation(element)" color="primary" aria-label="Editar personal">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </th>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of personal elements">
+
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
