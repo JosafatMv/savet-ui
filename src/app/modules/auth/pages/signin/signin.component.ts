@@ -29,7 +29,13 @@ export class SigninComponent {
 
 	signin() {
 		this.authService.login(this.user).subscribe((response: any) => {
+			if (response.err) {
+				console.log(response.err.error.message);
+				return;
+			}
+
 			const { user } = response;
+
 			localStorage.setItem('token', user.token);
 			this.generalService.isLogged = true;
 			this.authService.isLoading = false;
