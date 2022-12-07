@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from '../app.component';
+import { RegisterComponent } from '../modules/auth/pages/register/register.component';
 
 const routes: Routes = [
 	// {
@@ -13,10 +14,15 @@ const routes: Routes = [
 	// 	path: 'auth',
 	// 	component: SigninComponent,
 	// },
+  {
+    path: 'signup',
+    component: RegisterComponent
+  },
 	{
 		path: '**',
 		redirectTo: '',
 	},
+
 ];
 
 @NgModule({
