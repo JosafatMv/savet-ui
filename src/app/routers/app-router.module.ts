@@ -4,16 +4,6 @@ import { AppComponent } from '../app.component';
 import { RegisterComponent } from '../modules/auth/pages/register/register.component';
 
 const routes: Routes = [
-	// {
-	// 	path: '',
-	// 	component: MainPersonalComponent,
-	// 	pathMatch: 'full',
-	// },
-
-	// {
-	// 	path: 'auth',
-	// 	component: SigninComponent,
-	// },
   {
     path: 'signup',
     component: RegisterComponent
