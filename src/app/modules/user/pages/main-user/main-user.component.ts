@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { AddUserComponent } from '../add-user/add-user.component';
+import Swal from 'sweetalert2';
+import { GeneralService } from '../../../../services/general.service';
 
 @Component({
 	selector: 'app-main-user',
@@ -41,6 +43,7 @@ export class MainUserComponent implements OnInit {
 
 	constructor(
 		private userService: UserService,
+		private generalService: GeneralService,
 		private _liveAnnouncer: LiveAnnouncer,
 		public dialog: MatDialog
 	) {}
@@ -92,9 +95,41 @@ export class MainUserComponent implements OnInit {
 	}
 
 	changeStatus(user: User) {
-		this.userService.changeStatus(user).subscribe((response) => {
-			this.userService.isLoading = false;
-			this.getAllUsers();
+		Swal.fire({
+			title: '¿Estás seguro?',
+			text: 'El status del usuario se cambiará',
+			icon: 'warning',
+			showCancelButton: true,
+			showLoaderOnConfirm: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Si, cambiar',
+			cancelButtonText: 'Cancelar',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire({
+					title: 'Cambiando status...',
+					text: 'Por favor espere...',
+					allowOutsideClick: false,
+					showConfirmButton: false,
+					willOpen: () => {
+						Swal.showLoading(Swal.getDenyButton());
+					},
+				});
+
+				this.userService.changeStatus(user).subscribe((response) => {
+					if (response.error) {
+						Swal.close();
+						this.generalService.showError(response.error.message);
+						return;
+					}
+
+					this.userService.isLoading = false;
+					this.getAllUsers();
+					Swal.close();
+					this.generalService.showSnackBar('Status cambiado');
+				});
+			}
 		});
 	}
 

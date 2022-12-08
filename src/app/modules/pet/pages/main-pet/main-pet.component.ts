@@ -8,6 +8,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPetComponent } from '../add-pet/add-pet.component';
 import { GeneralService } from '../../../../services/general.service';
+import Swal from 'sweetalert2';
 
 @Component({
 	selector: 'app-main-pet',
@@ -111,9 +112,43 @@ export class MainPetComponent implements OnInit {
 	}
 
 	changeStatus(pet: Pet) {
-		this.petService.changeStatus(pet).subscribe((response: any) => {
-			this.petService.isLoading = false;
-			this.getAllPets();
+		Swal.fire({
+			title: '¿Estás seguro?',
+			text: 'El status de la mascota se cambiará',
+			icon: 'warning',
+			showCancelButton: true,
+			showLoaderOnConfirm: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Si, cambiar',
+			cancelButtonText: 'Cancelar',
+		}).then((result) => {
+			Swal.fire({
+				title: 'Cambiando status...',
+				text: 'Por favor espere...',
+				allowOutsideClick: false,
+				showConfirmButton: false,
+				willOpen: () => {
+					Swal.showLoading(Swal.getDenyButton());
+				},
+			});
+
+			if (result.isConfirmed) {
+				this.petService.changeStatus(pet).subscribe((response: any) => {
+					if (response.error) {
+						Swal.close();
+						this.generalService.showError(response.error.message);
+						return;
+					}
+
+					this.petService.isLoading = false;
+					this.getAllPets();
+					Swal.close();
+					this.generalService.showSnackBar(
+						'El status de la mascota se cambió correctamente'
+					);
+				});
+			}
 		});
 	}
 
