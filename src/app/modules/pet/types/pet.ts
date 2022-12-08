@@ -1,4 +1,4 @@
-import { Entity } from '../../../../../../../Unidad-3/personal-ui/src/app/types/entity';
+import { Entity } from 'src/app/types/entity';
 
 export type Pet = Entity<number> & {
 	id: number;

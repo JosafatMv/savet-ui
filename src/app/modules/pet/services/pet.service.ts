@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Pet } from '../types/pet';
 import { HttpClient } from '@angular/common/http';
 import { APP_URL } from 'src/app/services/base-url-app';
-import { catchError } from 'rxjs';
+import { catchError, of } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -65,7 +65,7 @@ export class PetService {
 		return this.http.put<any>(`${APP_URL}api/pet/`, pet).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
 			})
 		);
 	}

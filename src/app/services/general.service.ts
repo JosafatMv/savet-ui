@@ -3,6 +3,8 @@ import { APP_URL } from './base-url-app';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface User {
 	id: number;
@@ -21,7 +23,7 @@ export class GeneralService {
 
 	private user!: User;
 
-	constructor(private http: HttpClient) {
+	constructor(private http: HttpClient, private snackBar: MatSnackBar) {
 		this.session.logged = !!localStorage.getItem('token');
 	}
 
@@ -66,7 +68,7 @@ export class GeneralService {
 				this.user = {
 					id: user.id!,
 					email: user.email!,
-					role: user.role	!,
+					role: user.role!,
 					token: user.token!,
 				};
 
@@ -74,5 +76,48 @@ export class GeneralService {
 			}),
 			catchError((err) => of(false))
 		);
+	}
+
+	messageError(err: string) {
+		switch (err) {
+			case 'Wrong type':
+				return 'Tipo de datos incorrecto';
+
+			case 'Missing fields':
+				return 'Faltan campos';
+
+			case 'Inexistent role':
+				return 'Rol no registrado';
+
+			case 'Nothing found':
+				return 'No se encontraron datos';
+
+			case 'Password mismatch':
+				return 'Credenciales incorrectas';
+
+			case 'User disabled':
+				return 'Usuario deshabilitado';
+
+			case 'User not found':
+				return 'Usuario no encontrado';
+
+			default:
+				return 'Error en la petición';
+		}
+	}
+
+	showError(err: string) {
+		Swal.fire({
+			title: 'Error',
+			text: this.messageError(err),
+			icon: 'error',
+			confirmButtonText: 'Ok',
+		});
+	}
+
+	showSnackBar(message: string) {
+		this.snackBar.open(message, 'Cerrar', {
+			duration: 3000,
+		});
 	}
 }

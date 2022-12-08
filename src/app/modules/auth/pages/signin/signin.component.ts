@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { GeneralService } from 'src/app/services/general.service';
 import { UserLogin } from '../../types/user';
 import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
 	selector: 'app-signin',
@@ -30,7 +31,7 @@ export class SigninComponent {
 	signin() {
 		this.authService.login(this.user).subscribe((response: any) => {
 			if (response.err) {
-				console.log(response.err.error.message);
+				this.generalService.showError(response.err.err.message);
 				return;
 			}
 

@@ -96,8 +96,11 @@
     <button mat-button mat-dialog-close type="button" color="warn">
       <mat-icon>cancel</mat-icon> Cancel
     </button>
-    <button mat-button type="submit" [disabled]="formUser.invalid || !isLoading" color="primary">
+    <button mat-button type="submit" [disabled]="formUser.invalid || isLoading()" color="primary">
       <mat-icon>check</mat-icon> Guardar
     </button>
   </mat-dialog-actions>
+  <mat-card-footer *ngIf="isLoading()">
+    <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+  </mat-card-footer>
 </form>
