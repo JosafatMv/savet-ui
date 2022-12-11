@@ -1,7 +1,7 @@
 import { Entity } from 'src/app/types/entity';
 
-export type Pet = Entity<number> & {
-	id: number;
+export type Pet = {
+	pet_id: number;
 	name: string;
 	breed: string;
 	gender: string;

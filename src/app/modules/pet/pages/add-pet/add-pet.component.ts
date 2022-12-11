@@ -11,7 +11,7 @@ import { GeneralService } from '../../../../services/general.service';
 })
 export class AddPetComponent implements OnInit {
 	pet: Pet = {
-		id: 0,
+		pet_id: 0,
 		name: '',
 		breed: '',
 		gender: '',
@@ -89,7 +89,7 @@ export class AddPetComponent implements OnInit {
 
 							this.petService.isLoading = false;
 							this.pet = {
-								id: 0,
+								pet_id: 0,
 								name: '',
 								breed: '',
 								gender: '',

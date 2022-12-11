@@ -14,7 +14,16 @@ import { AddConsultationComponent } from '../add-consultation/add-consultation.c
 	templateUrl: './main-consultation.component.html',
 })
 export class MainConsultationComponent implements OnInit {
-	displayedColumns: string[] = ['#', 'date', 'pet', 'actions'];
+	displayedColumns: string[] = [
+		'#',
+		'date',
+		'pet',
+		'owner',
+		'products',
+		'services',
+		'medicines',
+		'actions',
+	];
 
 	consultations!: MatTableDataSource<Consultation>;
 
@@ -71,7 +80,7 @@ export class MainConsultationComponent implements OnInit {
 
 	openDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
 		const modalRef = this.dialog.open(AddConsultationComponent, {
-			width: '60%',
+			width: '80%',
 			enterAnimationDuration,
 			exitAnimationDuration,
 			disableClose: true,
@@ -81,13 +90,16 @@ export class MainConsultationComponent implements OnInit {
 				consultation_id: 0,
 				consultation_date: '',
 				pet: {
-					id: 0,
+					pet_id: 0,
 					name: '',
 					breed: '',
 					gender: '',
 					weight: 0,
 					user: {},
 				},
+				products: [],
+				services: [],
+				medicines: [],
 			};
 			this.consultationService.edit = false;
 			this.getAllConsultations();
@@ -100,12 +112,5 @@ export class MainConsultationComponent implements OnInit {
 			...consultation,
 		};
 		this.openDialog('2ms', '1ms');
-	}
-
-	deletePet(id: number) {
-		this.consultationService.delete(id).subscribe((response: any) => {
-			this.consultationService.isLoading = false;
-			this.getAllConsultations();
-		});
 	}
 }

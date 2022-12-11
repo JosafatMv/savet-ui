@@ -18,11 +18,60 @@
       </ng-container>
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de consulta</th>
-        <th mat-cell *matCellDef="let element">{{element.date}} </th>
+        <th mat-cell *matCellDef="let element"> {{element.consultation_date | date: "yyyy-MM-dd"}} </th>
       </ng-container>
       <ng-container matColumnDef="pet">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Mascota</th>
-        <th mat-cell *matCellDef="let element">{{element.pet}}</th>
+        <th mat-cell *matCellDef="let element">{{element.name}}</th>
+      </ng-container>
+      <ng-container matColumnDef="owner">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dueño</th>
+        <th mat-cell *matCellDef="let element">{{element.owner}}</th>
+      </ng-container>
+      <ng-container matColumnDef="medicines">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Medicamentos</th>
+        <th mat-cell *matCellDef="let element">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Medicamentos usados
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p *ngFor="let medicine of element.medicines">{{medicine.tradename}}</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="products">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Productos</th>
+        <th mat-cell *matCellDef="let element">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Productos comprados
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p *ngFor="let product of element.products">{{product.name}}</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="services">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Servicios</th>
+        <th mat-cell *matCellDef="let element">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Servicios dados
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p *ngFor="let service of element.services">{{service.name}}</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </th>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
@@ -32,8 +81,8 @@
           </button>
         </th>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of personal elements">
 

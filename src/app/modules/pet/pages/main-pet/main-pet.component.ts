@@ -90,7 +90,7 @@ export class MainPetComponent implements OnInit {
 		});
 		modalRef.afterClosed().subscribe((result: any) => {
 			this.petService.petUpdate = {
-				id: 0,
+				pet_id: 0,
 				name: '',
 				breed: '',
 				gender: '',

@@ -1,0 +1,4 @@
+<ng-multiselect-dropdown [placeholder]="'Medicinas utilizadas'" [settings]="dropdownSettings" [data]="dropdownList"
+  [(ngModel)]="getSelectedMedicines" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+  (onSelectAll)="onSelectAll($event)" class="mb-4">
+</ng-multiselect-dropdown>

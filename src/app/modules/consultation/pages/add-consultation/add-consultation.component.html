@@ -1,1 +1,41 @@
-<p>add-consultation works!</p>
+<form #formConsultation="ngForm" novalidate (submit)="saveConsultation()">
+  <h2 mat-dialog-title>Registro de consultas</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row form-group">
+      <div class="col-6 col-md-6 col-xs-12">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Mascota</mat-label>
+          <mat-select #pet="ngModel" [(ngModel)]="consultation.pet!.pet_id" name="pet" required>
+            <mat-option *ngFor="let pet of pets" [value]="pet.pet_id">{{pet.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="pet.invalid">
+            <span *ngIf="pet.errors?.['required']">Campo obligatorio</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 col-md-6 col-xs-12">
+        <app-select-medicines></app-select-medicines>
+
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-6 col-md-6 col-xs-12">
+        <app-select-services></app-select-services>
+        <mat-error *ngIf="areServicesEmpty">
+          <span *ngIf="areServicesEmpty">Campo obligatorio</span>
+        </mat-error>
+      </div>
+      <div class="col-6 col-md-6 col-xs-12">
+        <app-select-products></app-select-products>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="justify-content-end">
+    <button mat-button mat-dialog-close type="button" color="warn">
+      <mat-icon>cancel</mat-icon> Cancel
+    </button>
+    <button mat-button type="submit" [disabled]="formConsultation.invalid || isLoading()" color="primary">
+      <mat-icon>check</mat-icon> Guardar
+    </button>
+  </mat-dialog-actions>
+</form>
