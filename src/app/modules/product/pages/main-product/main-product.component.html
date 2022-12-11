@@ -18,7 +18,7 @@
       </ng-container>
       <ng-container matColumnDef="img_url">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Imágen</th>
-        <th mat-cell *matCellDef="let element">
+        <th mat-cell *matCellDef="let element" class="img-container">
           <img [src]="element.img_url" />
         </th>
       </ng-container>

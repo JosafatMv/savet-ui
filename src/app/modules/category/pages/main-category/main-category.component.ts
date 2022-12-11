@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { AddCategoryComponent } from '../add-category/add-category.component';
+import { GeneralService } from '../../../../services/general.service';
+import Swal from 'sweetalert2';
 
 @Component({
 	selector: 'app-main-category',
@@ -32,6 +34,7 @@ export class MainCategoryComponent implements OnInit {
 
 	constructor(
 		private categoryService: CategoryService,
+		private generalService: GeneralService,
 		private _liveAnnouncer: LiveAnnouncer,
 		public dialog: MatDialog
 	) {}
@@ -77,9 +80,31 @@ export class MainCategoryComponent implements OnInit {
 	}
 
 	changeStatus(category: Category) {
-		this.categoryService.changeStatus(category).subscribe((response) => {
-			this.categoryService.isLoading = false;
-			this.getAllCategories();
-		});
+		this.generalService
+			.showConfirmAlert('El status de la categoria será cambiado')
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.generalService.showLoading();
+
+					this.categoryService
+						.changeStatus(category)
+						.subscribe((response) => {
+							if (response.error) {
+								this.generalService.showError(
+									response.error.message
+								);
+								Swal.close();
+								return;
+							}
+
+							this.categoryService.isLoading = false;
+							this.getAllCategories();
+							Swal.close();
+							this.generalService.showSnackBar(
+								'Status cambiado correctamente'
+							);
+						});
+				}
+			});
 	}
 }

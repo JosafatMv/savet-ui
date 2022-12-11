@@ -112,44 +112,31 @@ export class MainPetComponent implements OnInit {
 	}
 
 	changeStatus(pet: Pet) {
-		Swal.fire({
-			title: '¿Estás seguro?',
-			text: 'El status de la mascota se cambiará',
-			icon: 'warning',
-			showCancelButton: true,
-			showLoaderOnConfirm: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Si, cambiar',
-			cancelButtonText: 'Cancelar',
-		}).then((result) => {
-			Swal.fire({
-				title: 'Cambiando status...',
-				text: 'Por favor espere...',
-				allowOutsideClick: false,
-				showConfirmButton: false,
-				willOpen: () => {
-					Swal.showLoading(Swal.getDenyButton());
-				},
+		this.generalService
+			.showConfirmAlert('El status del producto se cambiará')
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.generalService.showLoading();
+					this.petService
+						.changeStatus(pet)
+						.subscribe((response: any) => {
+							if (response.error) {
+								Swal.close();
+								this.generalService.showError(
+									response.error.message
+								);
+								return;
+							}
+
+							this.petService.isLoading = false;
+							this.getAllPets();
+							Swal.close();
+							this.generalService.showSnackBar(
+								'El status de la mascota se cambió correctamente'
+							);
+						});
+				}
 			});
-
-			if (result.isConfirmed) {
-				this.petService.changeStatus(pet).subscribe((response: any) => {
-					if (response.error) {
-						Swal.close();
-						this.generalService.showError(response.error.message);
-						return;
-					}
-
-					this.petService.isLoading = false;
-					this.getAllPets();
-					Swal.close();
-					this.generalService.showSnackBar(
-						'El status de la mascota se cambió correctamente'
-					);
-				});
-			}
-		});
 	}
 
 	deletePet(id: number) {
