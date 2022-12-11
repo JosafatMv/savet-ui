@@ -101,6 +101,9 @@ export class GeneralService {
 			case 'User not found':
 				return 'Usuario no encontrado';
 
+			case 'Passwords mismatched':
+				return 'Las contraseñas no coinciden';
+
 			default:
 				return 'Error en la petición';
 		}
@@ -133,7 +136,7 @@ export class GeneralService {
 		});
 	}
 
-	showConfirmAlert(message: string) {
+	showConfirmAlert(message: string, confirmMessage: string = 'Si, cambiar') {
 		return Swal.fire({
 			title: '¿Estás seguro?',
 			text: message,
@@ -142,7 +145,7 @@ export class GeneralService {
 			showLoaderOnConfirm: true,
 			confirmButtonColor: '#3085d6',
 			cancelButtonColor: '#d33',
-			confirmButtonText: 'Si, cambiar',
+			confirmButtonText: confirmMessage,
 			cancelButtonText: 'Cancelar',
 		});
 	}

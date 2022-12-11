@@ -11,7 +11,7 @@
     <div class="col-4">
       <div class="login-container">
         <h2 class="mt-5">Bienvenido de vuelta</h2>
-        <span class="mb-5">¿No tienes cuenta? <a href="">Registrate aquí</a> </span>
+        <span class="mb-5">¿No tienes cuenta? <a [routerLink]="['/auth/signup']">Registrate aquí</a> </span>
         <form class="my-3" #loginForm="ngForm" novalidate (submit)="signin()">
           <div class="row">
             <div class="col-12">

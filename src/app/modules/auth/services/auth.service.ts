@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserLogin } from '../types/user';
+import { UserLogin, UserRegister } from '../types/user';
 import { catchError, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { GeneralService } from '../../../services/general.service';
@@ -33,5 +33,32 @@ export class AuthService {
 				return of(err);
 			})
 		);
+	}
+
+	register(payload: UserRegister) {
+		this.loading = true;
+		return this.http
+			.post<any>('http://localhost:3000/api/user', payload, {
+				headers: {
+					skip: 'true',
+				},
+			})
+			.pipe(
+				catchError((error) => {
+					this.loading = false;
+					return of(error);
+				})
+			);
+	}
+
+	confirmEmail(token: string) {
+		return this.http
+			.get<any>(`http://localhost:3000/api/auth/confirm/${token}`)
+			.pipe(
+				catchError((error) => {
+					this.loading = false;
+					return of(error);
+				})
+			);
 	}
 }

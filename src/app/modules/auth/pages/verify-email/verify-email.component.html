@@ -1,0 +1,38 @@
+<div class="verify-container text-center">
+  <div class="success-container" *ngIf="isConfirmedEmail">
+
+    <div class="success-message">
+      <h1>¡Éxito!</h1>
+
+      <div class="success-img mb-3">
+        <img [src]="successImgSrc" alt="Success image">
+      </div>
+
+      <p>Tu correo ha sido verificado.</p>
+      <span>Por favor, inicia sesión para continuar.</span>
+    </div>
+
+    <div class="success-button mt-3">
+      <button mat-raised-button color="primary" routerLink="/auth/login">Login</button>
+    </div>
+  </div>
+
+
+  <div class="error-container" *ngIf="!isConfirmedEmail">
+    <div class="error-message">
+      <h1>¡Error!</h1>
+
+      <div class="error-img mb-3">
+        <img [src]="imgSrc" alt="Error image">
+      </div>
+
+      <p>Ha ocurrido un error al verificar tu correo.</p>
+      <span>Por favor, contacta con un administrador.</span>
+    </div>
+
+    <div class="error-button mt-3">
+      <button mat-raised-button color="primary" routerLink="/auth/login">Login</button>
+    </div>
+  </div>
+
+</div>
