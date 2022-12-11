@@ -19,7 +19,7 @@
     <button mat-button mat-dialog-close type="button" color="warn">
       <mat-icon>cancel</mat-icon> Cancel
     </button>
-    <button mat-button type="submit" [disabled]="formCategory.invalid || !isLoading" color="primary">
+    <button mat-button type="submit" [disabled]="formCategory.invalid || isLoading()" color="primary">
       <mat-icon>check</mat-icon> Guardar
     </button>
   </mat-dialog-actions>

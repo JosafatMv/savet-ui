@@ -8,10 +8,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { AddProductComponent } from '../add-product/add-product.component';
 import { GeneralService } from '../../../../services/general.service';
+import Swal from 'sweetalert2';
 
 @Component({
 	selector: 'app-main-product',
 	templateUrl: './main-product.component.html',
+	styleUrls: ['./main-product.component.css'],
 })
 export class MainProductComponent implements OnInit {
 	displayedColumns: string[] = [
@@ -101,18 +103,43 @@ export class MainProductComponent implements OnInit {
 	}
 
 	editProduct(product: any) {
+		console.log(product);
+
 		this.productService.edit = true;
 		this.productService.productUpdate = {
 			...product,
 			category: { category_id: Number(product.category_id) },
 		};
+
 		this.openDialog('2ms', '1ms');
 	}
 
 	changeStatus(product: Product) {
-		this.productService.changeStatus(product).subscribe((response) => {
-			this.productService.isLoading = false;
-			this.getAllProducts();
-		});
+		this.generalService
+			.showConfirmAlert('El status del producto se cambiará')
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.generalService.showLoading();
+
+					this.productService
+						.changeStatus(product)
+						.subscribe((response) => {
+							if (response.error) {
+								Swal.close();
+								this.generalService.showError(
+									response.error.message
+								);
+								return;
+							}
+
+							this.productService.isLoading = false;
+							this.getAllProducts();
+							Swal.close();
+							this.generalService.showSnackBar(
+								'El status del producto se cambió correctamente'
+							);
+						});
+				}
+			});
 	}
 }

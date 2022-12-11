@@ -30,7 +30,7 @@ export class AuthService {
 		return this.http.post('http://localhost:3000/api/auth/', payload).pipe(
 			catchError((err) => {
 				this.loading = false;
-				return of({ err });
+				return of(err);
 			})
 		);
 	}

@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { AddMedicineComponent } from '../add-medicine/add-medicine.component';
+import { GeneralService } from '../../../../services/general.service';
+import Swal from 'sweetalert2';
 
 @Component({
 	selector: 'app-main-medicine',
@@ -41,6 +43,7 @@ export class MainMedicineComponent implements OnInit {
 
 	constructor(
 		private medicineService: MedicineService,
+		private generalService: GeneralService,
 		private _liveAnnouncer: LiveAnnouncer,
 		public dialog: MatDialog
 	) {}
@@ -92,9 +95,33 @@ export class MainMedicineComponent implements OnInit {
 	}
 
 	changeStatus(medicine: Medicine) {
-		this.medicineService.changeStatus(medicine).subscribe((response) => {
-			this.medicineService.isLoading = false;
-			this.getAllMedicines();
-		});
+		this.generalService
+			.showConfirmAlert(
+				'¿Está seguro de cambiar el estado del medicamento?'
+			)
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.generalService.showLoading();
+
+					this.medicineService
+						.changeStatus(medicine)
+						.subscribe((response) => {
+							if (response.error) {
+								Swal.close();
+								this.generalService.showError(
+									response.error.message
+								);
+								return;
+							}
+
+							this.medicineService.isLoading = false;
+							this.getAllMedicines();
+							Swal.close();
+							this.generalService.showSnackBar(
+								'El estado del medicamento ha sido cambiado'
+							);
+						});
+				}
+			});
 	}
 }

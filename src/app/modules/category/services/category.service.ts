@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Category } from '../types/category';
 import { HttpClient } from '@angular/common/http';
 import { APP_URL } from 'src/app/services/base-url-app';
-import { catchError } from 'rxjs';
+import { catchError, of } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -36,14 +36,19 @@ export class CategoryService {
 		return this.http.get<any>(`${APP_URL}api/category/`).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
 			})
 		);
 	}
 
 	save(category: Category) {
 		this.loading = true;
-		return this.http.post<any>(`${APP_URL}api/category/`, category);
+		return this.http.post<any>(`${APP_URL}api/category/`, category).pipe(
+			catchError((error) => {
+				this.loading = false;
+				return of(error);
+			})
+		);
 	}
 
 	update(category: Category) {
@@ -51,7 +56,7 @@ export class CategoryService {
 		return this.http.put<any>(`${APP_URL}api/category/`, category).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
 			})
 		);
 	}
@@ -63,7 +68,7 @@ export class CategoryService {
 			.pipe(
 				catchError((error) => {
 					this.loading = false;
-					return error;
+					return of(error);
 				})
 			);
 	}

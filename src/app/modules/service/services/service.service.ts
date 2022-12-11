@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Service } from '../types/service';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs';
+import { catchError, of } from 'rxjs';
 import { APP_URL } from 'src/app/services/base-url-app';
 
 @Injectable({
@@ -36,14 +36,19 @@ export class ServiceService {
 		return this.http.get<any>(`${APP_URL}api/service/`).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
 			})
 		);
 	}
 
 	save(service: Service) {
 		this.loading = true;
-		return this.http.post<any>(`${APP_URL}api/service/`, service);
+		return this.http.post<any>(`${APP_URL}api/service/`, service).pipe(
+			catchError((error) => {
+				this.loading = false;
+				return of(error);
+			})
+		);
 	}
 
 	update(service: Service) {
@@ -51,7 +56,7 @@ export class ServiceService {
 		return this.http.put<any>(`${APP_URL}api/service/`, service).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
 			})
 		);
 	}
@@ -63,7 +68,7 @@ export class ServiceService {
 			.pipe(
 				catchError((error) => {
 					this.loading = false;
-					return error;
+					return of(error);
 				})
 			);
 	}

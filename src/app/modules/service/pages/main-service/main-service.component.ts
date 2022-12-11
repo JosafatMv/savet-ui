@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { AddServiceComponent } from '../add-service/add-service.component';
 import { GeneralService } from '../../../../services/general.service';
+import Swal from 'sweetalert2';
 
 @Component({
 	selector: 'app-main-service',
@@ -101,10 +102,34 @@ export class MainServiceComponent implements OnInit {
 	}
 
 	changeStatus(service: Service) {
-		this.serviceService.changeStatus(service).subscribe((response) => {
-			this.serviceService.isLoading = false;
-			this.getAllServices();
-		});
+		this.generalService
+			.showConfirmAlert(
+				`¿Está seguro que desea cambiar el estado del servicio?`
+			)
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.generalService.showLoading();
+
+					this.serviceService
+						.changeStatus(service)
+						.subscribe((response) => {
+							if (response.error) {
+								this.generalService.showError(
+									response.error.message
+								);
+								Swal.close();
+								return;
+							}
+
+							this.serviceService.isLoading = false;
+							this.getAllServices();
+							Swal.close();
+							this.generalService.showSnackBar(
+								`El estado del servicio ha sido cambiado exitosamente`
+							);
+						});
+				}
+			});
 	}
 
 	// deletePet(id: number) {

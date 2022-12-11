@@ -92,7 +92,7 @@ export class GeneralService {
 			case 'Nothing found':
 				return 'No se encontraron datos';
 
-			case 'Password mismatch':
+			case 'Credentials mismatch':
 				return 'Credenciales incorrectas';
 
 			case 'User disabled':
@@ -118,6 +118,32 @@ export class GeneralService {
 	showSnackBar(message: string) {
 		this.snackBar.open(message, 'Cerrar', {
 			duration: 3000,
+		});
+	}
+
+	showLoading(message: string = 'Cargando...') {
+		Swal.fire({
+			title: message,
+			text: 'Por favor espere...',
+			allowOutsideClick: false,
+			showConfirmButton: false,
+			willOpen: () => {
+				Swal.showLoading(Swal.getDenyButton());
+			},
+		});
+	}
+
+	showConfirmAlert(message: string) {
+		return Swal.fire({
+			title: '¿Estás seguro?',
+			text: message,
+			icon: 'warning',
+			showCancelButton: true,
+			showLoaderOnConfirm: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Si, cambiar',
+			cancelButtonText: 'Cancelar',
 		});
 	}
 }
