@@ -33,6 +33,25 @@ export class MainPetComponent implements OnInit {
 
 	getAllPets() {
 		this.petService.findAll().subscribe((response: any) => {
+			if (response.error) {
+				this.generalService.showError(response.error.message);
+				return;
+			}
+
+			this.petService.isLoading = false;
+			this.pets = new MatTableDataSource(response);
+			this.pets.paginator = this.paginator;
+			this.pets.sort = this.sort;
+		});
+	}
+
+	getAllOwnerPets(id: number) {
+		this.petService.findAllOwnerPets(id).subscribe((response) => {
+			if (response.error) {
+				this.generalService.showError(response.error.message);
+				return;
+			}
+
 			this.petService.isLoading = false;
 			this.pets = new MatTableDataSource(response);
 			this.pets.paginator = this.paginator;
@@ -41,7 +60,7 @@ export class MainPetComponent implements OnInit {
 	}
 
 	getDisplayedColumns() {
-		if (this.isAdmin()) {
+		if (this.hasPermission()) {
 			return this.displayedColumns;
 		} else {
 			return this.displayedColumns.filter(
@@ -50,8 +69,11 @@ export class MainPetComponent implements OnInit {
 		}
 	}
 
-	isAdmin() {
-		return this.generalService.userInfo.role === 'admin';
+	hasPermission() {
+		return (
+			this.generalService.userInfo.role === 'admin' ||
+			this.generalService.userInfo.role === 'veterinary'
+		);
 	}
 
 	constructor(
@@ -59,13 +81,15 @@ export class MainPetComponent implements OnInit {
 		private generalService: GeneralService,
 		private _liveAnnouncer: LiveAnnouncer,
 		public dialog: MatDialog
-	) {
-		// this.getPersonal();
-		// this.pets = new MatTableDataSource<Pet>(this.petService.getPets);
-	}
+	) {}
 
 	ngOnInit(): void {
-		this.getAllPets();
+		if (this.generalService.userInfo.role === 'client') {
+			const id = this.generalService.userInfo.id;
+			this.getAllOwnerPets(id);
+		} else {
+			this.getAllPets();
+		}
 	}
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -137,12 +161,5 @@ export class MainPetComponent implements OnInit {
 						});
 				}
 			});
-	}
-
-	deletePet(id: number) {
-		this.petService.delete(id).subscribe((response: any) => {
-			this.petService.isLoading = false;
-			this.getAllPets();
-		});
 	}
 }

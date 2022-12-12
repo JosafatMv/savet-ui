@@ -27,8 +27,6 @@ export class AddPetComponent implements OnInit {
 		private generalService: GeneralService
 	) {
 		if (this.petService.edit) {
-			console.log(this.petService.petUpdate);
-
 			this.pet = this.petService.petUpdate;
 		}
 	}

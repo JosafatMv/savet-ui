@@ -20,6 +20,7 @@ import { MedicineModule } from './modules/medicine/medicine.module';
 import { ConsultationModule } from './modules/consultation/consultation.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PaymentModule } from './modules/payment/payment.module';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent, MainComponent],
@@ -39,6 +40,7 @@ import { PaymentModule } from './modules/payment/payment.module';
 		ConsultationModule,
 		PaymentModule,
 		...materialModules,
+		NgxPayPalModule,
 		NgMultiSelectDropDownModule.forRoot(),
 	],
 	providers: [

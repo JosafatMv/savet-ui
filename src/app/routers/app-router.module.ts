@@ -31,6 +31,16 @@ const routes: Routes = [
 		data: { role: 'veterinary' },
 	},
 	{
+		path: 'client',
+		loadChildren: () =>
+			import('../modules/client/client.module').then(
+				(m) => m.ClientModule
+			),
+		canActivate: [ValidateGuard],
+		canLoad: [ValidateGuard],
+		data: { role: 'client' },
+	},
+	{
 		path: '**',
 		redirectTo: 'auth',
 	},

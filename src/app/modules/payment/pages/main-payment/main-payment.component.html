@@ -4,12 +4,6 @@
       <mat-card-title>Pagos</mat-card-title>
       <mat-card-subtitle></mat-card-subtitle>
     </div>
-    <div class="col text-end" *ngIf="isAdmin()">
-      <!-- <button mat-mini-fab color="accent" aria-label="Open register user" (click)="openDialog('0ms', '0ms')"> -->
-      <button mat-mini-fab color="accent" aria-label="Open register payment">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
   </mat-card-header>
   <mat-card-content>
     <table class="col-12" mat-table [dataSource]="payments" matSort (matSortChange)="announceSortChange($event)">
@@ -43,15 +37,11 @@
         <th mat-header-cell *matHeaderCellDef>Acciones
         </th>
         <th mat-cell *matCellDef="let element">
-          <!-- <button class="ms-2" mat-mini-fab color="warn" (click)="deletePet(element.pet_id)">
-                  <mat-icon>delete</mat-icon>
-                </button> -->
-          <button mat-mini-fab [ngClass]="{
-                  'bg-danger': element.paid === 0,
-                  'bg-success': element.paid === 1
-                  }" (click)="changeStatus(element)" class="ms-2">
+          <button mat-mini-fab class="bg-danger ms-2" (click)="makePayment(element)" *ngIf="element.paid === 0">
+            <mat-icon *ngIf="element.paid === 0" >attach_money</mat-icon>
+          </button>
+          <button mat-mini-fab class="bg-success" *ngIf="element.paid === 1">
             <mat-icon *ngIf="element.paid === 1">price_check</mat-icon>
-            <mat-icon *ngIf="element.paid === 0">attach_money</mat-icon>
           </button>
         </th>
       </ng-container>

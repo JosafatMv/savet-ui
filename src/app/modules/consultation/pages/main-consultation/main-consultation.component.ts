@@ -22,7 +22,6 @@ export class MainConsultationComponent implements OnInit {
 		'products',
 		'services',
 		'medicines',
-		'actions',
 	];
 
 	consultations!: MatTableDataSource<Consultation>;
@@ -32,7 +31,12 @@ export class MainConsultationComponent implements OnInit {
 	}
 
 	getAllConsultations() {
-		this.consultationService.findAll().subscribe((response: any) => {
+		this.consultationService.findAll().subscribe((response) => {
+			if (response.error) {
+				this.generalService.showError(response.error.message);
+				return;
+			}
+
 			this.consultationService.isLoading = false;
 			this.consultations = new MatTableDataSource(response);
 			this.consultations.paginator = this.paginator;
@@ -40,18 +44,27 @@ export class MainConsultationComponent implements OnInit {
 		});
 	}
 
-	getDisplayedColumns() {
-		if (this.isAdmin()) {
-			return this.displayedColumns;
-		} else {
-			return this.displayedColumns.filter(
-				(column) => column !== 'actions'
-			);
-		}
+	getAllOwnConsultations(id: number) {
+		this.consultationService
+			.findAllOwnConsultations(id)
+			.subscribe((response) => {
+				if (response.error) {
+					this.generalService.showError(response.error.message);
+					return;
+				}
+
+				this.consultationService.isLoading = false;
+				this.consultations = new MatTableDataSource(response);
+				this.consultations.paginator = this.paginator;
+				this.consultations.sort = this.sort;
+			});
 	}
 
-	isAdmin() {
-		return this.generalService.userInfo.role === 'admin';
+	hasPermission() {
+		return (
+			this.generalService.userInfo.role === 'admin' ||
+			this.generalService.userInfo.role === 'veterinary'
+		);
 	}
 
 	constructor(
@@ -62,7 +75,12 @@ export class MainConsultationComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.getAllConsultations();
+		if (this.generalService.userInfo.role === 'client') {
+			const id = this.generalService.userInfo.id;
+			this.getAllOwnConsultations(id);
+		} else {
+			this.getAllConsultations();
+		}
 	}
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -101,6 +119,7 @@ export class MainConsultationComponent implements OnInit {
 				services: [],
 				medicines: [],
 			};
+			this.consultationService.clearSelects();
 			this.consultationService.edit = false;
 			this.getAllConsultations();
 		});

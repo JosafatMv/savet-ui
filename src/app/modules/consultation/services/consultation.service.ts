@@ -74,6 +74,12 @@ export class ConsultationService {
 		);
 	}
 
+	clearSelects() {
+		this.selectedMedicines = [];
+		this.selectedServices = [];
+		this.selectedProducts = [];
+	}
+
 	constructor(private readonly http: HttpClient) {}
 
 	findAll() {
@@ -84,6 +90,18 @@ export class ConsultationService {
 				return of(error);
 			})
 		);
+	}
+
+	findAllOwnConsultations(id: number) {
+		this.loading = true;
+		return this.http
+			.get<any>(`${APP_URL}api/consultation/owner/${id}`)
+			.pipe(
+				catchError((error) => {
+					this.loading = false;
+					return of(error);
+				})
+			);
 	}
 
 	save(consultation: Consultation) {

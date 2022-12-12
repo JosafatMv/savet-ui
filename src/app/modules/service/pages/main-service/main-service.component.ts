@@ -131,11 +131,4 @@ export class MainServiceComponent implements OnInit {
 				}
 			});
 	}
-
-	// deletePet(id: number) {
-	// 	this.serviceService.delete(id).subscribe((response) => {
-	// 		this.userService.isLoading = false;
-	// 		this.getAllUsers();
-	// 	});
-	// }
 }

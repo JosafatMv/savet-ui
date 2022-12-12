@@ -4,10 +4,11 @@ import { MainPaymentComponent } from './pages/main-payment/main-payment.componen
 import { FormsModule } from '@angular/forms';
 import { materialModules } from 'src/app/types/material-modules';
 import { MakePaymentComponent } from './pages/make-payment/make-payment.component';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 @NgModule({
 	declarations: [MainPaymentComponent, MakePaymentComponent],
-	imports: [CommonModule, FormsModule, ...materialModules],
+	imports: [CommonModule, FormsModule, ...materialModules, NgxPayPalModule],
 	exports: [MainPaymentComponent],
 })
 export class PaymentModule {}

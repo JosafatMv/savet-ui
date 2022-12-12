@@ -40,14 +40,29 @@ export class PetService {
 		return this.http.get<any>(`${APP_URL}api/pet/`).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
+			})
+		);
+	}
+
+	findAllOwnerPets(id: number) {
+		this.loading = true;
+		return this.http.get<any>(`${APP_URL}api/pet/owner/${id}`).pipe(
+			catchError((error) => {
+				this.loading = false;
+				return of(error);
 			})
 		);
 	}
 
 	save(pet: Pet) {
 		this.loading = true;
-		return this.http.post<any>(`${APP_URL}api/pet/`, pet);
+		return this.http.post<any>(`${APP_URL}api/pet/`, pet).pipe(
+			catchError((error) => {
+				this.loading = false;
+				return of(error);
+			})
+		);
 	}
 
 	findAllUsers() {
@@ -55,7 +70,7 @@ export class PetService {
 		return this.http.get<any>(`${APP_URL}api/user/`).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
 			})
 		);
 	}
@@ -75,7 +90,7 @@ export class PetService {
 		return this.http.delete<any>(`${APP_URL}api/pet/`, { body: pet }).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
 			})
 		);
 	}
@@ -85,7 +100,7 @@ export class PetService {
 		return this.http.delete<any>(`${APP_URL}api/pet/${id}`).pipe(
 			catchError((error) => {
 				this.loading = false;
-				return error;
+				return of(error);
 			})
 		);
 	}

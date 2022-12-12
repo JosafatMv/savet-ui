@@ -94,62 +94,41 @@ export class AddConsultationComponent implements OnInit {
 				if (result.isConfirmed) {
 					this.consultationService.isLoading = true;
 
-					if (this.consultationService.edit) {
-						this.consultationService
-							.update(this.consultation)
-							.subscribe((response) => {
-								if (response.error) {
-									Swal.close();
-									this.generalService.showError(
-										response.error.message
-									);
-									return;
-								}
-
-								this.consultationService.isLoading = false;
-								this.modal.close();
-								this.consultationService.edit = false;
+					this.consultationService
+						.save(this.consultation)
+						.subscribe((response) => {
+							if (response.error) {
 								Swal.close();
-								this.generalService.showSnackBar(
-									'La consulta se ha actualizado correctamente'
+								this.generalService.showError(
+									response.error.message
 								);
-							});
-					} else {
-						this.consultationService
-							.save(this.consultation)
-							.subscribe((response) => {
-								if (response.error) {
-									Swal.close();
-									this.generalService.showError(
-										response.error.message
-									);
-									return;
-								}
+								return;
+							}
 
-								this.consultationService.isLoading = false;
-								this.consultation = {
-									consultation_id: 0,
-									consultation_date: '',
-									pet: {
-										pet_id: 0,
-										name: '',
-										breed: '',
-										gender: '',
-										weight: 0,
-										user: {},
-									},
-									products: [],
-									services: [],
-									medicines: [],
-								};
-								this.modal.close();
-								this.consultationService.findAll();
-								Swal.close();
-								this.generalService.showSnackBar(
-									'La consulta se ha guardado correctamente. Su orden de pago ha sido generada'
-								);
-							});
-					}
+							this.consultationService.isLoading = false;
+							this.consultation = {
+								consultation_id: 0,
+								consultation_date: '',
+								pet: {
+									pet_id: 0,
+									name: '',
+									breed: '',
+									gender: '',
+									weight: 0,
+									user: {},
+								},
+								products: [],
+								services: [],
+								medicines: [],
+							};
+							this.consultationService.clearSelects();
+							this.modal.close();
+							this.consultationService.findAll();
+							Swal.close();
+							this.generalService.showSnackBar(
+								'La consulta se ha guardado correctamente. Su orden de pago ha sido generada'
+							);
+						});
 				}
 			});
 	}

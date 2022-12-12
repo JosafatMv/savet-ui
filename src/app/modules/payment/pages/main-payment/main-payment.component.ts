@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GeneralService } from 'src/app/services/general.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import Swal from 'sweetalert2';
+import { MakePaymentComponent } from '../make-payment/make-payment.component';
 
 @Component({
 	selector: 'app-main-payment',
@@ -44,15 +44,29 @@ export class MainPaymentComponent implements OnInit {
 	}
 
 	hasPermission() {
-		return (
-			this.generalService.userInfo.role === 'admin' ||
-			this.generalService.userInfo.role === 'veterinary'
-		);
+		return this.generalService.userInfo.role === 'client';
 	}
 
 	getAllPayments() {
 		this.paymentService.findAll().subscribe((response) => {
-			console.log(response);
+			if (response.error) {
+				this.generalService.showError(response.error.message);
+				return;
+			}
+
+			this.paymentService.isLoading = false;
+			this.payments = new MatTableDataSource(response);
+			this.payments.paginator = this.paginator;
+			this.payments.sort = this.sort;
+		});
+	}
+
+	getAllPaymentsByOwner(id: number) {
+		this.paymentService.findAllOwnPayments(id).subscribe((response) => {
+			if (response.error) {
+				this.generalService.showError(response.error.message);
+				return;
+			}
 
 			this.paymentService.isLoading = false;
 			this.payments = new MatTableDataSource(response);
@@ -69,7 +83,11 @@ export class MainPaymentComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.getAllPayments();
+		if (this.generalService.userInfo.role === 'client') {
+			this.getAllPaymentsByOwner(this.generalService.userInfo.id);
+		} else {
+			this.getAllPayments();
+		}
 	}
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -83,68 +101,36 @@ export class MainPaymentComponent implements OnInit {
 		}
 	}
 
-	// openDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
-	// 	const modalRef = this.dialog.open(AddServiceComponent, {
-	// 		width: '60%',
-	// 		enterAnimationDuration,
-	// 		exitAnimationDuration,
-	// 		disableClose: true,
-	// 	});
-	// 	modalRef.afterClosed().subscribe((result: any) => {
-	// 		this.paymentService.serviceUpdate = {
-	// 			id: 0,
-	// 			name: '',
-	// 			description: '',
-	// 			salary: 0.0,
-	// 		};
-	// 		this.paymentService.edit = false;
-	// 		this.getAllPayments();
-	// 	});
-	// }
+	openDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
+		const modalRef = this.dialog.open(MakePaymentComponent, {
+			width: '60%',
+			enterAnimationDuration,
+			exitAnimationDuration,
+			disableClose: true,
+			maxHeight: '90vh',
+		});
+		modalRef.afterClosed().subscribe((result: any) => {
+			this.paymentService.paymentUpdate = {
+				id: 0,
+				name: '',
+				description: '',
+				salary: 0.0,
+			};
+			this.paymentService.edit = false;
 
-	editPayment(payment: any) {
+			if (this.generalService.userInfo.role === 'client') {
+				this.getAllPaymentsByOwner(this.generalService.userInfo.id);
+			} else {
+				this.getAllPayments();
+			}
+		});
+	}
+
+	makePayment(payment: any) {
 		this.paymentService.edit = true;
 		this.paymentService.paymentUpdate = {
 			...payment,
 		};
-		// this.openDialog('2ms', '1ms');
+		this.openDialog('2ms', '1ms');
 	}
-
-	changeStatus(payment: Payment) {
-		this.generalService
-			.showConfirmAlert(
-				`¿Está seguro que desea cambiar el estado del servicio?`
-			)
-			.then((result) => {
-				if (result.isConfirmed) {
-					this.generalService.showLoading();
-
-					this.paymentService
-						.changeStatus(payment)
-						.subscribe((response) => {
-							if (response.error) {
-								this.generalService.showError(
-									response.error.message
-								);
-								Swal.close();
-								return;
-							}
-
-							this.paymentService.isLoading = false;
-							this.getAllPayments();
-							Swal.close();
-							this.generalService.showSnackBar(
-								`El estado del servicio ha sido cambiado exitosamente`
-							);
-						});
-				}
-			});
-	}
-
-	// deletePet(id: number) {
-	// 	this.serviceService.delete(id).subscribe((response) => {
-	// 		this.userService.isLoading = false;
-	// 		this.getAllUsers();
-	// 	});
-	// }
 }

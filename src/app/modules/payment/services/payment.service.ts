@@ -42,6 +42,16 @@ export class PaymentService {
 		);
 	}
 
+	findAllOwnPayments(id: number) {
+		this.loading = true;
+		return this.http.get<any>(`${APP_URL}api/payment/owner/${id}`).pipe(
+			catchError((error) => {
+				this.loading = false;
+				return of(error);
+			})
+		);
+	}
+
 	save(payment: Payment) {
 		this.loading = true;
 		return this.http.post<any>(`${APP_URL}api/payment/`, payment).pipe(
@@ -52,20 +62,10 @@ export class PaymentService {
 		);
 	}
 
-	update(payment: Payment) {
-		this.loading = true;
-		return this.http.put<any>(`${APP_URL}api/payment/`, payment).pipe(
-			catchError((error) => {
-				this.loading = false;
-				return of(error);
-			})
-		);
-	}
-
-	changeStatus(payment: Payment) {
+	makePayment(payment: Payment) {
 		this.loading = true;
 		return this.http
-			.delete<any>(`${APP_URL}api/payment/`, { body: payment })
+			.put<any>(`${APP_URL}api/payment/`, payment)
 			.pipe(
 				catchError((error) => {
 					this.loading = false;

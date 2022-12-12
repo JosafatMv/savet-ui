@@ -5,7 +5,7 @@
       <mat-card-subtitle></mat-card-subtitle>
     </div>
     <div class="col text-end" *ngIf="isAdmin()">
-      <button mat-mini-fab color="accent" aria-label="Open register user" (click)="openDialog('0ms', '0ms')">
+      <button mat-mini-fab color="primary" aria-label="Open register service" (click)="openDialog('0ms', '0ms')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -26,7 +26,7 @@
       </ng-container>
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
-        <th mat-cell *matCellDef="let element">${{element.price}}</th>
+        <th mat-cell *matCellDef="let element">{{element.price}}$</th>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones
@@ -35,9 +35,6 @@
           <button mat-mini-fab (click)="editService(element)" color="primary" aria-label="Editar servicio">
             <mat-icon>edit</mat-icon>
           </button>
-          <!-- <button class="ms-2" mat-mini-fab color="warn" (click)="deletePet(element.pet_id)">
-                <mat-icon>delete</mat-icon>
-              </button> -->
           <button mat-mini-fab [ngClass]="{
                 'bg-danger': element.status === 1,
                 'bg-success': element.status === 0
@@ -50,13 +47,8 @@
       <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
       <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of users elements">
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of services elements">
 
     </mat-paginator>
   </mat-card-content>
 </mat-card>
-
-<!-- 
-    <div id="loaderDiv" *ngIf="isLoading">
-      <mat-spinner mode="indeterminate" class="ajax-loader"></mat-spinner>
-    </div> -->
