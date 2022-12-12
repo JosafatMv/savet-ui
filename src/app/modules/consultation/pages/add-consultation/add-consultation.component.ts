@@ -6,10 +6,6 @@ import { GeneralService } from '../../../../services/general.service';
 import Swal from 'sweetalert2';
 import { Pet } from '../../../pet/types/pet';
 import { Medicine } from '../../../medicine/types/medicine';
-import {
-	MatAutocomplete,
-	MatAutocompleteTrigger,
-} from '@angular/material/autocomplete';
 
 @Component({
 	selector: 'app-add-consultation',
@@ -115,7 +111,7 @@ export class AddConsultationComponent implements OnInit {
 								this.consultationService.edit = false;
 								Swal.close();
 								this.generalService.showSnackBar(
-									'La mascota se ha actualizado correctamente'
+									'La consulta se ha actualizado correctamente'
 								);
 							});
 					} else {
@@ -150,7 +146,7 @@ export class AddConsultationComponent implements OnInit {
 								this.consultationService.findAll();
 								Swal.close();
 								this.generalService.showSnackBar(
-									'La mascota se ha guardado correctamente'
+									'La consulta se ha guardado correctamente. Su orden de pago ha sido generada'
 								);
 							});
 					}
