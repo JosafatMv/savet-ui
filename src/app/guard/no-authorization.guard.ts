@@ -16,7 +16,9 @@ import { tap } from 'rxjs/operators';
 @Injectable({
 	providedIn: 'root',
 })
-export class ValidateGuard implements CanActivate, CanLoad, CanActivateChild {
+export class NoAuthorizationGuard
+	implements CanActivate, CanLoad, CanActivateChild
+{
 	event$;
 	current_url: string = '';
 
@@ -32,34 +34,25 @@ export class ValidateGuard implements CanActivate, CanLoad, CanActivateChild {
 	}
 
 	canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
-		if (this.current_url === `/no-authorization`) {
-			if (this.generalService.getUser().isConfirmed === 0) {
-				return true;
-			} else {
-				this.router.navigateByUrl(`/${route.data['role']}/`);
-				return false;
-			}
-		} else {
-			return this.generalService.validateToken().pipe(
-				tap((valid) => {
-					if (!valid) {
+		return this.generalService.validateToken().pipe(
+			tap((valid) => {
+				if (!valid) {
+					this.router.navigateByUrl('/auth');
+				} else {
+					if (!this.checkRole(route)) {
 						this.router.navigateByUrl('/auth');
-					} else {
-						if (!this.checkRole(route)) {
-							this.router.navigateByUrl('/auth');
-						}
 					}
+				}
 
-					if (this.generalService.getUser().isConfirmed === 0) {
-						this.router.navigateByUrl(`/no-authorization`);
+				if (this.generalService.getUser().isConfirmed !== 0) {
+					this.router.navigateByUrl(`/${route.data['role']}/`);
 
-						return false;
-					} else {
-						return true;
-					}
-				})
-			);
-		}
+					return false;
+				} else {
+					return true;
+				}
+			})
+		);
 	}
 
 	canLoad(route: Route): Observable<boolean> | boolean {

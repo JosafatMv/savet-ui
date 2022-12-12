@@ -11,6 +11,7 @@ interface User {
 	token: string;
 	email: string;
 	role: string;
+	isConfirmed: number;
 }
 
 @Injectable({
@@ -55,11 +56,6 @@ export class GeneralService {
 	validateToken(): Observable<boolean> {
 		const url = `${APP_URL}api/auth/renew`;
 
-		// const headers = new HttpHeaders().set(
-		// 	'Autorization',
-		// 	`Bearer ${localStorage.getItem('token')}` || ''
-		// );
-
 		return this.http.get<any>(url).pipe(
 			map((response) => {
 				const { user } = response;
@@ -70,6 +66,7 @@ export class GeneralService {
 					email: user.email!,
 					role: user.role!,
 					token: user.token!,
+					isConfirmed: user.isConfirmed!,
 				};
 
 				return true;

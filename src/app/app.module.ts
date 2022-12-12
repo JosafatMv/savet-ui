@@ -21,9 +21,15 @@ import { ConsultationModule } from './modules/consultation/consultation.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PaymentModule } from './modules/payment/payment.module';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { NoAuthorizationComponent } from './shared/no-authorization/no-authorization.component';
 
 @NgModule({
-	declarations: [AppComponent, NavigationComponent, MainComponent],
+	declarations: [
+		AppComponent,
+		NavigationComponent,
+		NoAuthorizationComponent,
+		MainComponent,
+	],
 	imports: [
 		AppRouterModule,
 		BrowserModule,
@@ -50,7 +56,7 @@ import { NgxPayPalModule } from 'ngx-paypal';
 			multi: true,
 		},
 	],
-	exports: [AppComponent, NavigationComponent],
+	exports: [AppComponent, NavigationComponent, NoAuthorizationComponent],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

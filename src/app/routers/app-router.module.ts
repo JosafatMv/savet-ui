@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { ValidateGuard } from '../guard/validate.guard';
 import { AuthGuard } from '../guard/auth.guard';
+import { NoAuthorizationComponent } from '../shared/no-authorization/no-authorization.component';
 
 const routes: Routes = [
 	{
@@ -28,6 +29,7 @@ const routes: Routes = [
 			),
 		canActivate: [ValidateGuard],
 		canLoad: [ValidateGuard],
+
 		data: { role: 'veterinary' },
 	},
 	{
@@ -39,6 +41,13 @@ const routes: Routes = [
 		canActivate: [ValidateGuard],
 		canLoad: [ValidateGuard],
 		data: { role: 'client' },
+	},
+	{
+		path: 'no-authorization',
+		canActivate: [ValidateGuard],
+		canLoad: [ValidateGuard],
+		canActivateChild: [ValidateGuard],
+		component: NoAuthorizationComponent,
 	},
 	{
 		path: '**',
