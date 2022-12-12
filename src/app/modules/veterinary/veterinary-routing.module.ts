@@ -5,6 +5,7 @@ import { MainConsultationComponent } from '../consultation/pages/main-consultati
 import { MainServiceComponent } from '../service/pages/main-service/main-service.component';
 import { MainProductComponent } from '../product/pages/main-product/main-product.component';
 import { MainPetComponent } from '../pet/pages/main-pet/main-pet.component';
+import { MainPaymentComponent } from '../payment/pages/main-payment/main-payment.component';
 
 const routes: Routes = [
 	{
@@ -15,6 +16,7 @@ const routes: Routes = [
 			{ path: 'services', component: MainServiceComponent },
 			{ path: 'products', component: MainProductComponent },
 			{ path: 'pets', component: MainPetComponent },
+			{ path: 'payments', component: MainPaymentComponent },
 			{ path: '**', redirectTo: 'consultations' },
 		],
 	},

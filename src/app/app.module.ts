@@ -19,6 +19,7 @@ import { ProductModule } from './modules/product/product.module';
 import { MedicineModule } from './modules/medicine/medicine.module';
 import { ConsultationModule } from './modules/consultation/consultation.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { PaymentModule } from './modules/payment/payment.module';
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent, MainComponent],
@@ -36,6 +37,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 		ProductModule,
 		MedicineModule,
 		ConsultationModule,
+		PaymentModule,
 		...materialModules,
 		NgMultiSelectDropDownModule.forRoot(),
 	],

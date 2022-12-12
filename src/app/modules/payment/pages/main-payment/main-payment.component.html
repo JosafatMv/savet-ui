@@ -1,0 +1,65 @@
+<mat-card class="mt-5 mb-5">
+  <mat-card-header class="row">
+    <div class="col">
+      <mat-card-title>Pagos</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+    </div>
+    <div class="col text-end" *ngIf="isAdmin()">
+      <!-- <button mat-mini-fab color="accent" aria-label="Open register user" (click)="openDialog('0ms', '0ms')"> -->
+      <button mat-mini-fab color="accent" aria-label="Open register payment">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="col-12" mat-table [dataSource]="payments" matSort (matSortChange)="announceSortChange($event)">
+      <ng-container matColumnDef="#">
+        <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <th mat-cell *matCellDef="let element; let i=index">{{i+1}}</th>
+      </ng-container>
+      <ng-container matColumnDef="pet">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Mascota</th>
+        <th mat-cell *matCellDef="let element">{{element.pet.name}} </th>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de pago</th>
+        <th mat-cell *matCellDef="let element">
+          <span *ngIf="element.date">{{element.date | date: "yyyy-MM-dd"}}</span>
+          <span *ngIf="!element.date">Sin fecha</span>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Monto total</th>
+        <th mat-cell *matCellDef="let element">{{element.amount}}$</th>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <th mat-cell *matCellDef="let element">
+          <span *ngIf="element.paid === 1" class="bg-success text-white rounded p-1">Pagado</span>
+          <span *ngIf="element.paid === 0" class="bg-danger text-white rounded p-1">Pendiente</span>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones
+        </th>
+        <th mat-cell *matCellDef="let element">
+          <!-- <button class="ms-2" mat-mini-fab color="warn" (click)="deletePet(element.pet_id)">
+                  <mat-icon>delete</mat-icon>
+                </button> -->
+          <button mat-mini-fab [ngClass]="{
+                  'bg-danger': element.paid === 0,
+                  'bg-success': element.paid === 1
+                  }" (click)="changeStatus(element)" class="ms-2">
+            <mat-icon *ngIf="element.paid === 1">price_check</mat-icon>
+            <mat-icon *ngIf="element.paid === 0">attach_money</mat-icon>
+          </button>
+        </th>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of payments elements">
+
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
